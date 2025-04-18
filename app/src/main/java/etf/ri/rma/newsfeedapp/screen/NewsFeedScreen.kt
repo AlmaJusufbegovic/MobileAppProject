@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextOverflow
 @Composable
 fun NewsFeedScreen(newsItems: List<NewsItem>) {
     var selectedCategory by remember { mutableStateOf("All") }
+    var selectedSource by remember { mutableStateOf("") }
 
     val filteredItems = when (selectedCategory) {
         "Politika" -> newsItems.filter { it.category == "Politika" }
@@ -25,14 +26,32 @@ fun NewsFeedScreen(newsItems: List<NewsItem>) {
         "Nauka/tehnologija" -> newsItems.filter { it.category == "Nauka/tehnologija" }
         else -> newsItems
     }
-
-    Column(modifier = Modifier.fillMaxSize().padding(8.dp)) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(8.dp)) {
         FilterSection(selectedCategory) { selectedCategory = it }
 
         if (filteredItems.isEmpty()) {
             MessageCard("Nema vijesti za ovu kategoriju.")
         } else {
             NewsList(filteredItems)
+        }
+    }
+
+    val filteredSource = when (selectedCategory) {
+        "Izvor A-Z" -> newsItems.sortedBy {it.source}
+        "Izvor Z-A" -> newsItems.sortedByDescending {it.source}
+        else -> newsItems
+    }
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(8.dp)) {
+        FilterSectionSource (selectedSource) { selectedSource= it }
+
+        if (filteredSource.isEmpty()) {
+            MessageCard("Nema vijesti za ovu kategoriju.")
+        } else {
+            NewsList(filteredSource)
         }
     }
 }
@@ -58,6 +77,28 @@ fun FilterSection(selected: String, onCategorySelected: (String) -> Unit) {
         }
     }
 }
+
+@Composable
+fun FilterSectionSource(selected: String, onCategorySelected: (String) -> Unit) {
+    val categories = listOf("Izvor A-Z", "Izvor Z-A")
+    val tags = mapOf(
+        "Izvor A-Z" to "sort_chip_source_asc",
+        "Izvor Z-A" to "sort_chip_source_desc"
+    )
+
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        categories.forEach { category ->
+            FilterChip(
+                selected = selected == category,
+                onClick = { if (selected != category) onCategorySelected(category) },
+                label = { Text(category) },
+                modifier = Modifier.testTag(tags[category] ?: "")
+            )
+        }
+    }
+}
+
+
 
 @Composable
 fun NewsList(newsItems: List<NewsItem>) {
