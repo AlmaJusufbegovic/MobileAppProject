@@ -13,13 +13,19 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="TestNewsType">
+      <SelectionState runConfigName="TestS2">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="TestS1">
+      <SelectionState runConfigName="politikaStartFilterMoreSportShouldBeSportWhenReturneToNewsList()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="listItemHasAll()">
+      <SelectionState runConfigName="politikaFilterSelectedAtStartShouldBeSelectedInFiltersScreen()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="detaljiVijestiNajblizeVijestiBack()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="detaljiVijesti()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

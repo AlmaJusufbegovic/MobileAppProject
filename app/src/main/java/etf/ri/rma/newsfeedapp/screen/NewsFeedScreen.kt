@@ -1,6 +1,6 @@
 package etf.ri.rma.newsfeedapp.screen
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,25 +16,54 @@ import androidx.compose.ui.unit.dp
 import etf.ri.rma.newsfeedapp.data.NewsData
 import etf.ri.rma.newsfeedapp.model.NewsItem
 import coil.compose.AsyncImage
+import etf.ri.rma.newsfeedapp.navigation.LocalNavController
+import java.text.SimpleDateFormat
+import java.util.Locale
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun NewsFeedScreen() {
-    val newsItems = remember { NewsData.getAllNews() }
-    var selectedCategory by remember { mutableStateOf("All") }
+    val navController = LocalNavController.current
+    val allNewsItems = remember { NewsData.getAllNews() }
 
+    var selectedCategory by remember { mutableStateOf("All") }
+    var dateRange by remember { mutableStateOf<Pair<String?, String?>?>(null) }
+    var unwantedWords by remember { mutableStateOf<List<String>>(emptyList()) }
     var selectedSource by remember { mutableStateOf("") }
 
     val categoryFilteredItems = when (selectedCategory) {
-        "Politika" -> newsItems.filter { it.category == "Politika" }
-        "Sport" -> newsItems.filter { it.category == "Sport" }
-        "Nauka/tehnologija" -> newsItems.filter { it.category == "Nauka/tehnologija" }
-        else -> newsItems
+        "Politika" -> allNewsItems.filter { it.category == "Politika" }
+        "Sport" -> allNewsItems.filter { it.category == "Sport" }
+        "Nauka/tehnologija" -> allNewsItems.filter { it.category == "Nauka/tehnologija" }
+        else -> allNewsItems
     }
 
+    val dateFilteredItems = dateRange?.let { range ->
+        val (startStr, endStr) = range
+        if (startStr != null && endStr != null) {
+            val format = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+            val start = format.parse(startStr)
+            val end = format.parse(endStr)
+            categoryFilteredItems.filter {
+                val pubDate = format.parse(it.publishedDate)
+                pubDate != null && pubDate >= start && pubDate <= end
+            }
+        } else categoryFilteredItems
+    } ?: categoryFilteredItems
+
+    val unwantedFilteredItems = if (unwantedWords.isNotEmpty()) {
+        dateFilteredItems.filter { item ->
+            unwantedWords.none { word ->
+                item.title.contains(word, ignoreCase = true) ||
+                        item.snippet.contains(word, ignoreCase = true)
+            }
+        }
+    } else dateFilteredItems
+
     val finalItems = when (selectedSource) {
-        "Izvor A-Z" -> categoryFilteredItems.sortedBy { it.source }
-        "Izvor Z-A" -> categoryFilteredItems.sortedByDescending { it.source }
-        else -> categoryFilteredItems
+        "Izvor A-Z" -> unwantedFilteredItems.sortedBy { it.source }
+        "Izvor Z-A" -> unwantedFilteredItems.sortedByDescending { it.source }
+        else -> unwantedFilteredItems
     }
 
     Column(
@@ -43,8 +72,7 @@ fun NewsFeedScreen() {
             .padding(8.dp)
     ) {
         FilterSection(selectedCategory) { selectedCategory = it }
-        Spacer(modifier = Modifier.height(8.dp))
-        FilterSectionSource(selectedSource) { selectedSource = it }
+
         Spacer(modifier = Modifier.height(8.dp))
 
         if (finalItems.isEmpty()) {
@@ -53,9 +81,29 @@ fun NewsFeedScreen() {
             NewsList(finalItems)
         }
     }
+
+    LaunchedEffect(Unit) {
+        navController.currentBackStackEntryFlow.collectLatest { entry ->
+            val handle = entry.savedStateHandle
+
+            if (handle.contains("filters_applied")) {
+                selectedCategory = handle.get<String>("filter_category") ?: "All"
+
+                val dateStr = handle.get<String>("filter_daterange")
+                dateRange = dateStr?.split(";")?.let {
+                    if (it.size == 2) Pair(it[0], it[1]) else null
+                }
+
+                val wordsStr = handle.get<String>("filter_unwanted")
+                unwantedWords = wordsStr?.split(";")?.filter { it.isNotBlank() } ?: emptyList()
+
+                selectedSource = handle.get<String>("filter_source") ?: ""
+
+                handle.remove<String>("filters_applied")
+            }
+        }
+    }
 }
-
-
 
 @Composable
 fun FilterSection(selected: String, onCategorySelected: (String) -> Unit) {
@@ -66,47 +114,35 @@ fun FilterSection(selected: String, onCategorySelected: (String) -> Unit) {
         "Sport" to "filter_chip_spo",
         "Nauka/tehnologija" to "filter_chip_sci"
     )
+    val navController = LocalNavController.current
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        categories.forEach { category ->
-            FilterChip(
-                selected = selected == category,
-                onClick = { if (selected != category) onCategorySelected(category) },
-                label = { Text(category) },
-                modifier = Modifier.testTag(tags[category] ?: "")
-            )
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            categories.forEach { category ->
+                FilterChip(
+                    selected = selected == category,
+                    onClick = { onCategorySelected(category) },
+                    label = { Text(category) },
+                    modifier = Modifier.testTag(tags[category] ?: "")
+                )
+            }
         }
-    }
-}
 
-@Composable
-fun FilterSectionSource(selected: String, onCategorySelected: (String) -> Unit) {
-    val categories = listOf("Izvor A-Z", "Izvor Z-A")
-    val tags = mapOf(
-        "Izvor A-Z" to "sort_chip_source_asc",
-        "Izvor Z-A" to "sort_chip_source_desc"
-    )
+        Spacer(modifier = Modifier.height(8.dp))
 
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        categories.forEach { category ->
-            val isSelected = selected == category
-            FilterChip(
-                selected = isSelected,
-                onClick = {
-                    if (isSelected) {
-                        onCategorySelected("") // klik na isti chip -> deaktivacija
-                    } else {
-                        onCategorySelected(category)
-                    }
-                },
-                label = { Text(category) },
-                modifier = Modifier.testTag(tags[category] ?: "")
-            )
+        Button(
+            onClick = { navController.currentBackStackEntry?.savedStateHandle?.set("selected_category", selected)
+                navController.navigate("filters") },
+            modifier = Modifier
+                .testTag("filter_chip_more")
+                .align(Alignment.Start)
+        ) {
+            Text("Više filtera...")
         }
     }
 }
@@ -132,11 +168,15 @@ fun NewsList(newsItems: List<NewsItem>) {
 
 @Composable
 fun StandardNewsCard(item: NewsItem) {
+    val navController = LocalNavController.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(4.dp),
+            .padding(4.dp).clickable {
+                navController.navigate("details/${item.id}")
+            },
         elevation = CardDefaults.cardElevation(2.dp)
+
     ) {
         Row(modifier = Modifier.padding(8.dp)) {
             AsyncImage(
@@ -150,6 +190,7 @@ fun StandardNewsCard(item: NewsItem) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = item.title,
+                    //modifier = Modifier.testTag("news_title_${item.id}"),
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.titleMedium
@@ -179,10 +220,14 @@ fun StandardNewsCard(item: NewsItem) {
 
 @Composable
 fun FeaturedNewsCard(item: NewsItem) {
+    val navController = LocalNavController.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(4.dp),
+            .padding(4.dp)
+            .clickable {
+                navController.navigate("details/${item.id}")
+            },
         elevation = CardDefaults.cardElevation(6.dp)
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
@@ -198,6 +243,7 @@ fun FeaturedNewsCard(item: NewsItem) {
 
             Text(
                 text = item.title,
+                //modifier = Modifier.testTag("news_title_${item.id}"),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.titleLarge,
