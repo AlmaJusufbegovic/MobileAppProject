@@ -27,6 +27,14 @@ fun FilterScreen(
     val context = LocalContext.current
 
     var selectedCategory by remember { mutableStateOf(initialCategory) }
+    var selectedSource by remember { mutableStateOf("") }
+
+    var dateRange by remember { mutableStateOf<Pair<String?, String?>?>(null) }
+    var showDatePicker by remember { mutableStateOf(false) }
+    val datePickerState = rememberDateRangePickerState()
+
+    var inputWord by remember { mutableStateOf("") }
+    var unwantedWords by remember { mutableStateOf(listOf<String>()) }
 
     LaunchedEffect(Unit) {
         val savedCategory = navController
@@ -36,15 +44,15 @@ fun FilterScreen(
         if (savedCategory != null) {
             selectedCategory = savedCategory
         }
+
+        val savedUnwanted = navController
+            .previousBackStackEntry
+            ?.savedStateHandle
+            ?.get<String>("filter_unwanted")
+        if (savedUnwanted != null) {
+            unwantedWords = savedUnwanted.split(";").filter { it.isNotBlank() }
+        }
     }
-    var selectedSource by remember { mutableStateOf("") }
-
-    var dateRange by remember { mutableStateOf<Pair<String?, String?>?>(null) }
-    var showDatePicker by remember { mutableStateOf(false) }
-    val datePickerState = rememberDateRangePickerState()
-
-    var inputWord by remember { mutableStateOf("") }
-    var unwantedWords by remember { mutableStateOf(listOf<String>()) }
 
     Column(modifier = Modifier
         .fillMaxSize()

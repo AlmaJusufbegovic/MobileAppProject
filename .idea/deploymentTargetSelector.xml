@@ -19,13 +19,13 @@
       <SelectionState runConfigName="politikaStartFilterMoreSportShouldBeSportWhenReturneToNewsList()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="politikaFilterSelectedAtStartShouldBeSelectedInFiltersScreen()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="detaljiVijestiNajblizeVijestiBack()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="detaljiVijesti()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="filterOutWordFromThirdNews()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="detaljiVijestiNajblizeVijesti()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
