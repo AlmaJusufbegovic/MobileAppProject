@@ -58,14 +58,24 @@ fun FilterScreen(
         .fillMaxSize()
         .padding(16.dp)) {
 
-        // Kategorije Chipovi
-        val categories = listOf("All", "Politika", "Sport", "Nauka/tehnologija")
-        val tags = mapOf(
-            "All" to "filter_chip_all",
-            "Politika" to "filter_chip_pol",
-            "Sport" to "filter_chip_spo",
-            "Nauka/tehnologija" to "filter_chip_sci"
+        val categories = listOf(
+            "top", "science", "sports", "business", "health",
+            "entertainment", "tech", "politics", "food", "travel"
         )
+
+        val tags = mapOf(
+            "general" to "filter_chip_general",
+            "science" to "filter_chip_science",
+            "sports" to "filter_chip_sports",
+            "business" to "filter_chip_business",
+            "health" to "filter_chip_health",
+            "entertainment" to "filter_chip_entertainment",
+            "tech" to "filter_chip_tech",
+            "politics" to "filter_chip_politics",
+            "food" to "filter_chip_food",
+            "travel" to "filter_chip_travel"
+        )
+
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             categories.forEach { category ->
                 FilterChip(

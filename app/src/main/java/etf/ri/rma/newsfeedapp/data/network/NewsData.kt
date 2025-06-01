@@ -1,8 +1,127 @@
-package etf.ri.rma.newsfeedapp.data
+package etf.ri.rma.newsfeedapp.data.network
 
 import etf.ri.rma.newsfeedapp.model.NewsItem
+import java.util.UUID
 
-object NewsData {
+object StaticNewsData {
+    val predefinedNews = listOf(
+        NewsItem(
+            uuid = UUID.randomUUID().toString(),
+            title = "Ukraine and US forge new economic partnership for reconstruction",
+            snippet = "On Friday, Ukraine and the United States signed a memorandum of intent.",
+            imageUrl = "https://static.vecteezy.com/system/resources/thumbnails/041/880/991/small_2x/ai-generated-pic-artistic-depiction-of-sunflowers-under-a-vast-cloudy-sky-photo.jpg",
+            category = "politics",
+            isFeatured = true,
+            source = "Daily Wrap",
+            publishedDate = "17-04-2025",
+            imageTags = arrayListOf()
+        ),
+        NewsItem(
+            uuid = UUID.randomUUID().toString(),
+            title = "GPT-4.5 nears human mimicry, passing the Turing test at 73%",
+            snippet = "Does GPT chat think in a similar way to us? ",
+            imageUrl = "https://static.vecteezy.com/system/resources/thumbnails/041/880/991/small_2x/ai-generated-pic-artistic-depiction-of-sunflowers-under-a-vast-cloudy-sky-photo.jpg",
+            category = "tech",
+            isFeatured = false,
+            source = "Daily Wrap",
+            publishedDate = "14-04-2025",
+            imageTags = arrayListOf()
+        ),
+        NewsItem(
+            uuid = UUID.randomUUID().toString(),
+            title = "Controversy around the dire wolf 'de-extinctions'",
+            snippet = "...brought back dire wolves (Aenocyon dirus) from extinction after more than 10,000 years.",
+            imageUrl = "https://static.vecteezy.com/system/resources/thumbnails/041/880/991/small_2x/ai-generated-pic-artistic-depiction-of-sunflowers-under-a-vast-cloudy-sky-photo.jpg",
+            category = "science",
+            isFeatured = true,
+            source = "Live Science on MSN",
+            publishedDate = "22-03-2025",
+            imageTags = arrayListOf()
+        ),
+        NewsItem(
+            uuid = UUID.randomUUID().toString(),
+            title = "Arsenal v Lyon: five key factors in the Women’s Champions League semi",
+            snippet = "The former Arsenal manager Joe Montemurro, who left the club at the end of the 2020-21 season, returns to the Emirates Stadium when Arsenal... ",
+            imageUrl = "https://static.vecteezy.com/system/resources/thumbnails/041/880/991/small_2x/ai-generated-pic-artistic-depiction-of-sunflowers-under-a-vast-cloudy-sky-photo.jpg",
+            category = "sports",
+            isFeatured = false,
+            source = "SportCC",
+            publishedDate = "05-04-2025",
+            imageTags = arrayListOf()
+        ),
+        NewsItem(
+            uuid = UUID.randomUUID().toString(),
+            title = "2025 Saudi Arabian Grand Prix – Free Practice 1 F1 results (Jeddah)",
+            snippet = "UDrivers headed out for the first practice session of the Saudi Arabian Grand Prix weekend with Pierre Gasly topping the times in Jeddah.",
+            imageUrl = "https://static.vecteezy.com/system/resources/thumbnails/041/880/991/small_2x/ai-generated-pic-artistic-depiction-of-sunflowers-under-a-vast-cloudy-sky-photo.jpg",
+            category = "sports",
+            isFeatured = false,
+            source = "Planet f1",
+            publishedDate = "12-03-2025",
+            imageTags = arrayListOf()
+        ),
+        NewsItem(
+            uuid = UUID.randomUUID().toString(),
+            title = "Politics home and after haven't deterred investors from South Africa",
+            snippet = "Investors have flocked to South Africa's domestic bond markets, betting the country can stay the course on reforms despite ...",
+            imageUrl = "https://static.vecteezy.com/system/resources/thumbnails/041/880/991/small_2x/ai-generated-pic-artistic-depiction-of-sunflowers-under-a-vast-cloudy-sky-photo.jpg",
+            category = "Politika",
+            isFeatured = true,
+            source = "Reuters",
+            publishedDate = "17-02-2025",
+            imageTags = arrayListOf()
+        ),
+        NewsItem(
+            uuid = UUID.randomUUID().toString(),
+            title = "World Politics",
+            snippet = "The 17-year-old has been taken into custody more than two weeks after the alleged murder.",
+            imageUrl = "https://static.vecteezy.com/system/resources/thumbnails/041/880/991/small_2x/ai-generated-pic-artistic-depiction-of-sunflowers-under-a-vast-cloudy-sky-photo.jpg",
+            category = "politics",
+            isFeatured = false,
+            source = "The Telegraph",
+            publishedDate = "17-01-2025",
+            imageTags = arrayListOf()
+        ),
+        NewsItem(
+            uuid = UUID.randomUUID().toString(),
+            title = "Max Verstappen 'offered biggest contract in F1 history' to leave Red Bull for rival",
+            snippet = "Max Verstappen is said to be mulling over a mega-money contract offer from Aston Martin as the reigning world champion considers his future with Red Bull.",
+            imageUrl = "https://static.vecteezy.com/system/resources/thumbnails/041/880/991/small_2x/ai-generated-pic-artistic-depiction-of-sunflowers-under-a-vast-cloudy-sky-photo.jpg",
+            category = "sports",
+            isFeatured = true,
+            source = "Mirror",
+            publishedDate = "11-04-2025",
+            imageTags = arrayListOf()
+        ),
+        NewsItem(
+            uuid = UUID.randomUUID().toString(),
+            title = "Cutting ties with China would be very foolish, says Reeves",
+            snippet = "Rachel Reeves has said it would be “very foolish” for Britain to disengage with China, in a rejection of Donald Trump’s efforts to isolate Beijing..",
+            imageUrl = "https://static.vecteezy.com/system/resources/thumbnails/041/880/991/small_2x/ai-generated-pic-artistic-depiction-of-sunflowers-under-a-vast-cloudy-sky-photo.jpg",
+            category = "politics",
+            isFeatured = false,
+            source = "The Telegraph",
+            publishedDate = "15-04-2025",
+            imageTags = arrayListOf()
+        ),
+        NewsItem(
+            uuid = UUID.randomUUID().toString(),
+            title = "Hue new? Scientists claim to have found colour no one has seen before",
+            snippet = "Their description of the colour is not too arresting – the five people who have seen it call it blue-green – but that, they say, does not fully capture the richness of the experience.",
+            imageUrl = "https://static.vecteezy.com/system/resources/thumbnails/041/880/991/small_2x/ai-generated-pic-artistic-depiction-of-sunflowers-under-a-vast-cloudy-sky-photo.jpg",
+            category = "science",
+            isFeatured = false,
+            source = "The Guardian",
+            publishedDate = "13-04-2025",
+            imageTags = arrayListOf()
+        )
+
+    )
+}
+
+
+//ne koristi se od spirale3
+/*object NewsData {
     fun getAllNews(): List<NewsItem> {
         return listOf(
             NewsItem(
@@ -30,10 +149,10 @@ object NewsData {
                 title = "GPT-4.5 nears human mimicry, passing the Turing test at 73%",
                 snippet = "Does GPT chat think in a similar way to us? ",
                 imageUrl = "https://via.placeholder.com/800x400.png?text=AI+Model",
-                category = "Nauka/tehnologija",
+                category = tech",
                 isFeatured = false,
                 source = "Daily Wrap",
-                publishedDate = "14-04-2025"
+                publishedDate = "14-04-2025",
             ),
             NewsItem(
                 id = "3",
@@ -358,3 +477,4 @@ object NewsData {
         )
     }
 }
+*/

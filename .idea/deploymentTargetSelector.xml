@@ -4,28 +4,16 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-04-09T21:41:50.129465600Z">
+        <DropdownSelection timestamp="2025-05-31T08:33:59.650072400Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\almaj\.android\avd\Pixel_Fold.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\user\.android\avd\Medium_Phone.avd" />
             </handle>
           </Target>
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="TestS2">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="politikaStartFilterMoreSportShouldBeSportWhenReturneToNewsList()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="detaljiVijesti()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="filterOutWordFromThirdNews()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="detaljiVijestiNajblizeVijesti()">
+      <SelectionState runConfigName="TestS3">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
