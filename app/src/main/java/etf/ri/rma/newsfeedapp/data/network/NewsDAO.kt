@@ -15,6 +15,7 @@ object NewsDAO {
     private val allStories = mutableListOf<NewsItem>()
     private val fetchedTimestamps = mutableMapOf<String, Long>()
     private val staticNews = mutableListOf<NewsItem>()
+    private var isTesting = false
 
     private var initialized = false
 
@@ -28,7 +29,14 @@ object NewsDAO {
     private var apiService: NewsApiService? = null
 
     fun setApiService(service: NewsApiService) {
+        if (apiService != null) return
         apiService = service
+    }
+
+    fun getApiService(): NewsApiService? = apiService
+
+    fun resetApiService() {
+        apiService = null
     }
 
     @OptIn(UnstableApi::class)
@@ -44,28 +52,34 @@ object NewsDAO {
         }
 
         val apiKey = "6Nl6ScxLBBbNcT6xBSJRmeBvcY48JDebJdH2A4Qx"
-        val response = apiService?.getTopStoriesByCategory(
-            apiKey = apiKey,
-            category = category
-        ) ?: return@withContext emptyList()
+        try{
+            val response = apiService?.getTopStoriesByCategory(
+                apiKey = apiKey,
+                category = category
+            ) ?: return@withContext emptyList()
 
-        Log.d("API_RESPONSE", "Fetched ${response.data.size} items for category $category")
+            Log.d("API_RESPONSE", "Fetched ${response.data.size} items for category $category")
 
 
-        val newStories = response.data.map { it.toNewsItem(category) }
+            val newStories = response.data.map { it.toNewsItem(category) }
 
-        newStories.forEach { addStoryIfNotExists(it) }
-        fetchedTimestamps[category] = currentTime
+            newStories.forEach { addStoryIfNotExists(it) }
+            fetchedTimestamps[category] = currentTime
 
-        val featured = newStories.take(3)
-        val standard = cached.filterNot { cachedItem ->
-            cachedItem.uuid in featured.map { featuredItem -> featuredItem.uuid }
+            val featured = newStories.take(3)
+            val standard = cached.filterNot { cachedItem ->
+                cachedItem.uuid in featured.map { featuredItem -> featuredItem.uuid }
+            }
+
+            return@withContext featured + standard
+        }catch (e: Exception) {
+            Log.e("API_ERROR", "Greška prilikom API poziva: ${e.message}", e)
+            return@withContext emptyList()
         }
-
-        return@withContext featured + standard
     }
 
     fun getAllStories(): List<NewsItem> {
+        allStories.addAll(StaticNewsData.predefinedNews)
         return allStories
     }
 
@@ -77,24 +91,17 @@ object NewsDAO {
         }
     }
 
-    suspend fun initStaticNews() {
+    fun initStaticNews() {
         if (initialized) return
-        val categories = listOf("general", "science", "sports", "business", "health", "entertainment", "tech", "politics", "food", "travel")
 
-        for (category in categories) {
-            try {
-                val topStories = getTopStoriesByCategory(category)
-                if (topStories.isNotEmpty()) {
-                    staticNews.add(topStories[0]) // Dodaj prvu vijest iz svake kategorije
-                    allStories.add(topStories[0])
-                }
-            } catch (e: Exception) {
-                // Ignoriši ako neka kategorija ne uspije
-            }
+        StaticNewsData.predefinedNews.forEach {
+            addStoryIfNotExists(it)
+            staticNews.add(it)
         }
 
         initialized = true
     }
+
 
 
     suspend fun getSimilarStories(uuid: String): List<NewsItem> = withContext(Dispatchers.IO) {

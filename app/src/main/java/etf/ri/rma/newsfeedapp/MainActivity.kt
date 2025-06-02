@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.navigation.compose.rememberNavController
+import etf.ri.rma.newsfeedapp.data.network.NewsDAO
+import etf.ri.rma.newsfeedapp.data.network.RetrofitInstance
 import etf.ri.rma.newsfeedapp.navigation.NewsNavHost
 import etf.ri.rma.newsfeedapp.ui.theme.NewsFeedAppTheme
 import okhttp3.OkHttpClient
@@ -15,6 +17,10 @@ import etf.ri.rma.newsfeedapp.data.network.TestS3PripremljenRetrofit
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (NewsDAO.getApiService() == null) {
+            NewsDAO.setApiService(RetrofitInstance.provideNewsApiService())
+        }
 
         val imagaDAO = TestS3PripremljenRetrofit().getImaggaDAOwithBaseURL(
             baseURL = "https://api.imagga.com/v2/",

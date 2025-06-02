@@ -12,6 +12,8 @@ import etf.ri.rma.newsfeedapp.data.network.exception.InvalidImageURLException
 import etf.ri.rma.newsfeedapp.data.network.NewsDAO
 import etf.ri.rma.newsfeedapp.model.NewsItem
 import etf.ri.rma.newsfeedapp.viewmodel.NewsFeedViewModel
+import retrofit2.HttpException
+import android.util.Log
 
 @Composable
 fun NewsDetailsScreen(
@@ -50,8 +52,14 @@ fun NewsDetailsScreen(
             try {
                 val result = NewsDAO.getSimilarStories(newsId)
                 similarNews.addAll(result)
+            } catch (e: HttpException) {
+                if (e.code() == 404) {
+                    Log.e("NewsDetails", "404 - Vijest s UUID $newsId nije pronađena na serveru.")
+                } else {
+                    Log.e("NewsDetails", "API greška: ${e.code()}")
+                }
             } catch (e: Exception) {
-                // Npr. InvalidUUIDException
+                Log.e("NewsDetails", "Greška: ${e.message}")
             }
         }
     }

@@ -2,6 +2,7 @@ package etf.ri.rma.newsfeedapp
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import etf.ri.rma.newsfeedapp.data.network.NewsDAO
 import etf.ri.rma.newsfeedapp.data.network.TestS3PripremljenRetrofit
 import etf.ri.rma.newsfeedapp.data.network.exception.InvalidImageURLException
 import etf.ri.rma.newsfeedapp.data.network.exception.InvalidUUIDException
@@ -33,6 +34,7 @@ class TestS3 {
 
     @Before
     fun postaviCertifikate() {
+        NewsDAO.resetApiService()
         localCertificate = HeldCertificate.Builder()
             .commonName("localhost")
             .addSubjectAlternativeName("localhost")
