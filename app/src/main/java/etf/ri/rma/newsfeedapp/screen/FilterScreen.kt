@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.rememberDateRangePickerState
+import com.google.accompanist.flowlayout.FlowRow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,29 +55,34 @@ fun FilterScreen(
         }
     }
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp)) {
+    val categories = listOf(
+        "top", "science", "sports", "business", "health",
+        "entertainment", "tech", "politics", "food", "travel"
+    )
 
-        val categories = listOf(
-            "top", "science", "sports", "business", "health",
-            "entertainment", "tech", "politics", "food", "travel"
-        )
+    val tags = mapOf(
+        "top" to "filter_chip_top",
+        "science" to "filter_chip_science",
+        "sports" to "filter_chip_sports",
+        "business" to "filter_chip_business",
+        "health" to "filter_chip_health",
+        "entertainment" to "filter_chip_entertainment",
+        "tech" to "filter_chip_tech",
+        "politics" to "filter_chip_politics",
+        "food" to "filter_chip_food",
+        "travel" to "filter_chip_travel"
+    )
 
-        val tags = mapOf(
-            "general" to "filter_chip_general",
-            "science" to "filter_chip_science",
-            "sports" to "filter_chip_sports",
-            "business" to "filter_chip_business",
-            "health" to "filter_chip_health",
-            "entertainment" to "filter_chip_entertainment",
-            "tech" to "filter_chip_tech",
-            "politics" to "filter_chip_politics",
-            "food" to "filter_chip_food",
-            "travel" to "filter_chip_travel"
-        )
-
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            mainAxisSpacing = 8.dp,
+            crossAxisSpacing = 8.dp
+        ) {
             categories.forEach { category ->
                 FilterChip(
                     selected = selectedCategory == category,

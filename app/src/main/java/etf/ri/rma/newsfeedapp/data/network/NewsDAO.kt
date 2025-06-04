@@ -15,7 +15,6 @@ object NewsDAO {
     private val allStories = mutableListOf<NewsItem>()
     private val fetchedTimestamps = mutableMapOf<String, Long>()
     private val staticNews = mutableListOf<NewsItem>()
-    private var isTesting = false
 
     private var initialized = false
 

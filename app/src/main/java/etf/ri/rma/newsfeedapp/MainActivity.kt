@@ -11,7 +11,7 @@ import etf.ri.rma.newsfeedapp.data.network.RetrofitInstance
 import etf.ri.rma.newsfeedapp.navigation.NewsNavHost
 import etf.ri.rma.newsfeedapp.ui.theme.NewsFeedAppTheme
 import okhttp3.OkHttpClient
-import etf.ri.rma.newsfeedapp.data.network.TestS3PripremljenRetrofit
+import etf.ri.rma.newsfeedapp.data.network.RetrofitInstanceImaga
 
 
 class MainActivity : ComponentActivity() {
@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
             NewsDAO.setApiService(RetrofitInstance.provideNewsApiService())
         }
 
-        val imagaDAO = TestS3PripremljenRetrofit().getImaggaDAOwithBaseURL(
+        val imagaDAO = RetrofitInstanceImaga().provideImagaApiService(
             baseURL = "https://api.imagga.com/v2/",
             httpClient = OkHttpClient()
         )

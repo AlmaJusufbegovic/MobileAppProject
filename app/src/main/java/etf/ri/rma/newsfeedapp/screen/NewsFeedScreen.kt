@@ -21,6 +21,7 @@ import java.util.Locale
 import kotlinx.coroutines.flow.collectLatest
 import androidx.lifecycle.viewmodel.compose.viewModel
 import etf.ri.rma.newsfeedapp.viewmodel.NewsFeedViewModel
+import com.google.accompanist.flowlayout.FlowRow
 
 @Composable
 fun NewsFeedScreen(viewModel: NewsFeedViewModel = viewModel()) {
@@ -116,29 +117,14 @@ fun FilterSection(selected: String, onCategorySelected: (String) -> Unit) {
     val navController = LocalNavController.current
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        Row(
+        FlowRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            mainAxisSpacing = 8.dp,
+            crossAxisSpacing = 8.dp
         ) {
-            categories.take(4).forEach { category ->
-                FilterChip(
-                    selected = selected == category,
-                    onClick = { onCategorySelected(category) },
-                    label = { Text(category) },
-                    modifier = Modifier.testTag("filter_chip_${category}")
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(4.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            categories.drop(4).forEach { category ->
+            categories.forEach { category ->
                 FilterChip(
                     selected = selected == category,
                     onClick = { onCategorySelected(category) },

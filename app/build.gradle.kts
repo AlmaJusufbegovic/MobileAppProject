@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.androidx.activity.compose.v172)
     implementation(libs.coil.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation ("com.google.accompanist:accompanist-flowlayout:0.30.1")
 
 
 
