@@ -18,9 +18,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (NewsDAO.getApiService() == null) {
             NewsDAO.setApiService(RetrofitInstance.provideNewsApiService())
-        }
 
         val imagaDAO = RetrofitInstanceImaga().provideImagaApiService(
             baseURL = "https://api.imagga.com/v2/",

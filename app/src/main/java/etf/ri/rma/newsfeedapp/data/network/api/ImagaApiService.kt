@@ -1,6 +1,6 @@
 package etf.ri.rma.newsfeedapp.data.network.api
 
-import etf.ri.rma.newsfeedapp.model.ImagaResponse
+import etf.ri.rma.newsfeedapp.data.network.ImagaResponse
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query

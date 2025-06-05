@@ -23,19 +23,10 @@ object NewsDAO {
         "health", "entertainment", "tech", "politics", "food", "travel"
     )
 
-
-    @OptIn(UnstableApi::class)
-    private var apiService: NewsApiService? = null
+    private var apiService: NewsApiService = RetrofitInstance.provideNewsApiService()
 
     fun setApiService(service: NewsApiService) {
-        if (apiService != null) return
         apiService = service
-    }
-
-    fun getApiService(): NewsApiService? = apiService
-
-    fun resetApiService() {
-        apiService = null
     }
 
     @OptIn(UnstableApi::class)
@@ -52,10 +43,10 @@ object NewsDAO {
 
         val apiKey = "6Nl6ScxLBBbNcT6xBSJRmeBvcY48JDebJdH2A4Qx"
         try{
-            val response = apiService?.getTopStoriesByCategory(
+            val response = apiService.getTopStoriesByCategory(
                 apiKey = apiKey,
                 category = category
-            ) ?: return@withContext emptyList()
+            )
 
             Log.d("API_RESPONSE", "Fetched ${response.data.size} items for category $category")
 
@@ -101,17 +92,13 @@ object NewsDAO {
         initialized = true
     }
 
-
-
     suspend fun getSimilarStories(uuid: String): List<NewsItem> = withContext(Dispatchers.IO) {
         if (!isValidUUID(uuid)) throw InvalidUUIDException("Invalid UUID format")
 
-        val response = apiService?.getSimilarStories(newsId = uuid)
-            ?: return@withContext emptyList()
+        val response = apiService.getSimilarStories(newsId = uuid)
 
         return@withContext response.data
     }
-
 
     private fun addStoryIfNotExists(story: NewsItem) {
         if (allStories.none { it.uuid == story.uuid }) {

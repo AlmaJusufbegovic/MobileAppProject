@@ -1,4 +1,4 @@
-package etf.ri.rma.newsfeedapp.model
+package etf.ri.rma.newsfeedapp.data.network
 
 data class ImagaResponse(
     val result: Result

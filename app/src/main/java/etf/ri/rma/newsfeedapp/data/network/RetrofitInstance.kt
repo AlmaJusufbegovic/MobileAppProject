@@ -9,12 +9,17 @@ import okhttp3.OkHttpClient
 object RetrofitInstance {
     private const val BASE_URL = "https://api.thenewsapi.com/v1/"
 
+    private var newsApiService: NewsApiService? = null
+
     fun provideNewsApiService(): NewsApiService {
-        return Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(NewsApiService::class.java)
+        if (newsApiService == null) {
+            newsApiService = Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(NewsApiService::class.java)
+        }
+        return newsApiService!!
     }
 }
 
@@ -24,7 +29,7 @@ class RetrofitInstanceImaga {
         val retrofit = Retrofit.Builder()
             .baseUrl(baseURL)
             .client(httpClient)
-            .addConverterFactory(retrofit2.converter.gson.GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
         val imagaApiService = retrofit.create(ImagaApiService::class.java)
         imagaDAO.setApiService(imagaApiService)

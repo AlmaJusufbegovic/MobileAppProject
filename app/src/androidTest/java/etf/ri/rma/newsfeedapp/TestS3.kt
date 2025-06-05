@@ -34,7 +34,6 @@ class TestS3 {
 
     @Before
     fun postaviCertifikate() {
-        NewsDAO.resetApiService()
         localCertificate = HeldCertificate.Builder()
             .commonName("localhost")
             .addSubjectAlternativeName("localhost")
