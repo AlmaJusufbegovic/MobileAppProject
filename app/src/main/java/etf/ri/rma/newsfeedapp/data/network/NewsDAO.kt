@@ -1,11 +1,13 @@
 package etf.ri.rma.newsfeedapp.data.network
 
+import android.content.Context
 import androidx.annotation.OptIn
 import androidx.media3.common.util.Log
 import androidx.media3.common.util.UnstableApi
 import etf.ri.rma.newsfeedapp.data.network.api.NewsApiService
 import etf.ri.rma.newsfeedapp.data.network.exception.InvalidUUIDException
 import etf.ri.rma.newsfeedapp.model.NewsItem
+import etf.ri.rma.newsfeedapp.model.db.NewsDatabase
 import etf.ri.rma.newsfeedapp.model.toNewsItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -81,15 +83,18 @@ object NewsDAO {
         }
     }
 
-    fun initStaticNews() {
-        if (initialized) return
+    suspend fun initStaticNews(context: Context) {
+        val dao = NewsDatabase.getInstance(context).savedNewsDAO()
 
-        StaticNewsData.predefinedNews.forEach {
-            addStoryIfNotExists(it)
-            staticNews.add(it)
+        if (dao.getAllNewsWithTags().isNotEmpty()) return
+
+        for (news in StaticNewsData.predefinedNews) {
+            val saved = dao.saveNews(news)
+            val id = dao.getNewsByUuid(news.uuid)?.id
+            if (saved && id != null) {
+                dao.addTags(news.imageTags, id)
+            }
         }
-
-        initialized = true
     }
 
     suspend fun getSimilarStories(uuid: String): List<NewsItem> = withContext(Dispatchers.IO) {

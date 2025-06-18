@@ -17,11 +17,13 @@ import java.util.*
 import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.rememberDateRangePickerState
 import com.google.accompanist.flowlayout.FlowRow
+import etf.ri.rma.newsfeedapp.viewmodel.NewsFeedViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilterScreen(
     initialCategory: String = "All",
+    viewModel: NewsFeedViewModel,
     onApplyFilters: (String, String?, String?, String?) -> Unit = { _, _, _, _ -> }
 ) {
     val navController = LocalNavController.current
@@ -159,7 +161,6 @@ fun FilterScreen(
             )
         }
 
-
         Spacer(modifier = Modifier.height(16.dp))
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -215,7 +216,6 @@ fun FilterScreen(
                     set("filter_source", selectedSource)
                 }
                 navController.popBackStack()
-
             },
             modifier = Modifier
                 .fillMaxWidth()

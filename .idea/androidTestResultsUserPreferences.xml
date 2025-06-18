@@ -63,6 +63,20 @@
                   <entry key="Duration" value="90" />
                   <entry key="Medium_Phone_API_36.0" value="120" />
                   <entry key="Tests" value="360" />
+                  <entry key="samsung SM-A137F" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="-1444382309">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Tests" value="360" />
+                  <entry key="samsung SM-A137F" value="120" />
                 </map>
               </option>
             </AndroidTestResultsTableState>
@@ -121,6 +135,19 @@
           </value>
         </entry>
         <entry key="1133262831">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Tests" value="360" />
+                  <entry key="samsung SM-A137F" value="120" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="1239745146">
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">

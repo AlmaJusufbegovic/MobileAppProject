@@ -17,20 +17,20 @@ import etf.ri.rma.newsfeedapp.viewmodel.NewsFeedViewModel
 @Composable
 fun NewsNavHost(
     navController: NavHostController,
-    imagaDAO: ImagaDAO
+    imagaDAO: ImagaDAO,
+    viewModel: NewsFeedViewModel
 ) {
     CompositionLocalProvider(LocalNavController provides navController) {
         NavHost(navController = navController, startDestination = "home") {
             composable("home") {
-                NewsFeedScreen()
+                NewsFeedScreen(viewModel = viewModel)
             }
             composable("filters") { backStackEntry ->
                 val initialCategory = backStackEntry.savedStateHandle.get<String>("selected_category") ?: "All"
-                FilterScreen(initialCategory = initialCategory)
+                FilterScreen(initialCategory = initialCategory, viewModel = viewModel)
             }
             composable("details/{newsId}") { backStackEntry ->
                 val newsId = backStackEntry.arguments?.getString("newsId") ?: ""
-                val viewModel: NewsFeedViewModel = viewModel()
                 NewsDetailsScreen(
                     newsId = newsId,
                     navController = navController,
