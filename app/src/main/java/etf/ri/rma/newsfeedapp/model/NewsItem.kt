@@ -1,7 +1,6 @@
 package etf.ri.rma.newsfeedapp.model
 
 import androidx.room.PrimaryKey
-import etf.ri.rma.newsfeedapp.model.db.NewsEntity
 
 class NewsItem (
     @PrimaryKey(autoGenerate = true)
@@ -14,11 +13,11 @@ class NewsItem (
     val isFeatured: Boolean,
     val source: String,
     val publishedDate: String,
-    val imageTags: ArrayList<String>
+    val imageTags: ArrayList<String> = arrayListOf()
 )
 
-fun NewsItem.toEntity(): NewsEntity {
-    return NewsEntity(
+fun NewsItem.toNews(): News {
+    return News(
         uuid = uuid,
         title = title,
         snippet = snippet,

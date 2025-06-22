@@ -13,9 +13,9 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="TestS3">
+      <SelectionState runConfigName="TestS4">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-06-10T12:20:49.991091100Z">
+        <DropdownSelection timestamp="2025-06-21T15:36:01.645845800Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="PhysicalDevice" identifier="serial=RF8T70CLXAH" />
@@ -24,10 +24,10 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="testIfCacheingWorks2()">
+      <SelectionState runConfigName="a05_insertDuplicate()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="getTopNewsPolitikaDeepCompare()">
+      <SelectionState runConfigName="a09_addTagsToNews2()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

@@ -1,11 +1,14 @@
-package etf.ri.rma.newsfeedapp.model.db
+package etf.ri.rma.newsfeedapp.model
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
-import etf.ri.rma.newsfeedapp.model.NewsItem
 
-@Entity(tableName = "News")
-data class NewsEntity(
+@Entity(
+    tableName = "News",
+    indices = [Index(value = ["title"], unique = true)]
+)
+data class News(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val uuid: String,
     val title: String,
@@ -17,6 +20,7 @@ data class NewsEntity(
     val publishedDate: String
 )
 
+
 fun NewsWithTags.toNewsItem(): NewsItem {
     return NewsItem(
         uuid = news.uuid,
@@ -27,6 +31,6 @@ fun NewsWithTags.toNewsItem(): NewsItem {
         isFeatured = news.isFeatured,
         source = news.source,
         publishedDate = news.publishedDate,
-        imageTags = ArrayList(tags.map { it.value })
+        imageTags = ArrayList(imageTags.map { it.value })
     )
 }

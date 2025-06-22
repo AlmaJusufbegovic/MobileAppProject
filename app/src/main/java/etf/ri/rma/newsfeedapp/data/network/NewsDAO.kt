@@ -7,7 +7,7 @@ import androidx.media3.common.util.UnstableApi
 import etf.ri.rma.newsfeedapp.data.network.api.NewsApiService
 import etf.ri.rma.newsfeedapp.data.network.exception.InvalidUUIDException
 import etf.ri.rma.newsfeedapp.model.NewsItem
-import etf.ri.rma.newsfeedapp.model.db.NewsDatabase
+import etf.ri.rma.newsfeedapp.data.NewsDatabase
 import etf.ri.rma.newsfeedapp.model.toNewsItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -16,9 +16,6 @@ import java.util.UUID
 object NewsDAO {
     private val allStories = mutableListOf<NewsItem>()
     private val fetchedTimestamps = mutableMapOf<String, Long>()
-    private val staticNews = mutableListOf<NewsItem>()
-
-    private var initialized = false
 
     private val validCategories = listOf(
         "general", "science", "sports", "business",

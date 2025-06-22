@@ -9,10 +9,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import etf.ri.rma.newsfeedapp.data.network.NewsDAO
 import etf.ri.rma.newsfeedapp.model.NewsItem
-import etf.ri.rma.newsfeedapp.model.db.NewsDatabase
-import etf.ri.rma.newsfeedapp.model.db.toNewsItem
+import etf.ri.rma.newsfeedapp.data.NewsDatabase
+import etf.ri.rma.newsfeedapp.model.toNews
+import etf.ri.rma.newsfeedapp.model.toNewsItem
 import kotlinx.coroutines.launch
-
 
 class NewsFeedViewModel(context: Context) : ViewModel() {
     private val dao = NewsDatabase.getInstance(context).savedNewsDAO()
@@ -25,9 +25,10 @@ class NewsFeedViewModel(context: Context) : ViewModel() {
     init {
         viewModelScope.launch {
             try {
-                NewsDAO.initStaticNews(context)
+                NewsDAO.initStaticNews(context) // učitaj vijesti iz mock podataka
                 val fetchedNews = NewsDAO.getAllStories()
 
+                // Pokušaj da sačuvaš sve vijesti i njihove tagove u bazu
                 for (item in fetchedNews) {
                     val saved = dao.saveNews(item)
                     val id = dao.getNewsByUuid(item.uuid)?.id
@@ -40,13 +41,13 @@ class NewsFeedViewModel(context: Context) : ViewModel() {
                 _newsList.addAll(fetchedNews)
 
             } catch (e: Exception) {
+                // Ako ne uspije (npr. nema interneta), čitaj iz baze
                 val allFromDb = dao.getAllNewsWithTags().map { it.toNewsItem() }
                 _newsList.clear()
                 _newsList.addAll(allFromDb)
             }
         }
     }
-
 
     fun loadNews(category: String) {
         viewModelScope.launch {
@@ -75,5 +76,4 @@ class NewsFeedViewModel(context: Context) : ViewModel() {
             isLoading = false
         }
     }
-
 }

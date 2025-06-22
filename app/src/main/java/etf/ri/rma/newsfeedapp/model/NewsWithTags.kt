@@ -1,19 +1,19 @@
-package etf.ri.rma.newsfeedapp.model.db
+package etf.ri.rma.newsfeedapp.model
 
 import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
 
 data class NewsWithTags(
-    @Embedded val news: NewsEntity,
+    @Embedded val news: News,
     @Relation(
         parentColumn = "id",
         entityColumn = "id",
         associateBy = Junction(
-            value = NewsTagCrossRef::class,
+            value = NewsTag::class,
             parentColumn = "newsId",
             entityColumn = "tagId"
         )
     )
-    val tags: List<TagEntity>
+    val imageTags: List<Tag>
 )

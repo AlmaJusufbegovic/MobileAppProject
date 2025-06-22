@@ -19,6 +19,7 @@ retrofit = "2.9.0"
 roomRuntime = "2.7.1"
 runtimeLivedata = "1.8.2"
 media3CommonKtx = "1.7.1"
+sqliteAndroid = "2.5.2"
 
 [libraries]
 androidx-activity-compose-v172 = { module = "androidx.activity:activity-compose", version.ref = "activityComposeVersion" }
@@ -48,6 +49,7 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
 androidx-media3-common-ktx = { group = "androidx.media3", name = "media3-common-ktx", version.ref = "media3CommonKtx" }
+androidx-sqlite-android = { group = "androidx.sqlite", name = "sqlite-android", version.ref = "sqliteAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,12 +1,15 @@
-package etf.ri.rma.newsfeedapp.model.db
+package etf.ri.rma.newsfeedapp.data
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import etf.ri.rma.newsfeedapp.model.News
+import etf.ri.rma.newsfeedapp.model.NewsTag
+import etf.ri.rma.newsfeedapp.model.Tag
 
 @Database(
-    entities = [NewsEntity::class, TagEntity::class, NewsTagCrossRef::class],
+    entities = [News::class, Tag::class, NewsTag::class],
     version = 1
 )
 abstract class NewsDatabase : RoomDatabase() {
